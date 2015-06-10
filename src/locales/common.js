@@ -22,16 +22,28 @@ let Common = Locale.extend('Common', {
     return this.formatNumeral(val, '0,0.[000]');
   },
 
+  parseNumber(str) {
+    if (!str) return undefined;
+    if (!_.isString(str)) throw new Error('invalid input');
+    return this.numeral().unformat(str);
+  },
+
   percent(val) {
-    return this.formatNumeral(val, '0.[00]%');
+    return this.formatNumeral(val, this.percentFormat);
   },
 
   currency(val, symbol) {
     val = this.formatNumeral(val, '0,0.00');
-    if (_.startsWith(val, '-')) {
-      val = '-' + symbol + val.substr(1);
+    if (this.currencySymbolPosition === 'before') {
+      if (_.startsWith(val, '-')) {
+        val = '-' + symbol + val.substr(1);
+      } else {
+        val = symbol + val;
+      }
+    } else if (this.currencySymbolPosition === 'after') {
+      val = val + ' ' + symbol;
     } else {
-      val = symbol + val;
+      throw new Error('\'currencySymbolPosition\' is missing or invalid');
     }
     val = this.makeSpacesUnbreakable(val);
     return val;
@@ -52,35 +64,45 @@ let Common = Locale.extend('Common', {
   },
 
   shortDate(val) {
-    return this.formatMoment(val, 'MM/DD/YY');
+    return this.formatMoment(val, this.shortDateFormat);
   },
 
   mediumDate(val) {
-    return this.formatMoment(val, 'MM/DD/YYYY');
+    return this.formatMoment(val, this.mediumDateFormat);
   },
 
   date(val) {
     return this.mediumDate(val);
   },
 
+  parseDate(str) {
+    if (!str) return undefined;
+    if (!_.isString(str)) throw new Error('invalid input');
+    let date = this.moment(str, this.mediumDateFormat, true);
+    if (date.isValid()) return date.toDate();
+    date = this.moment(str, this.flexibleDateFormatForParsing, true);
+    if (date.isValid()) return date.toDate();
+    return undefined;
+  },
+
   longDate(val) {
-    return this.formatMoment(val, 'MMMM D, YYYY');
+    return this.formatMoment(val, this.longDateFormat);
   },
 
   fullDate(val) {
-    return this.formatMoment(val, 'dddd, MMMM D, YYYY');
+    return this.formatMoment(val, this.fullDateFormat);
   },
 
   shortTime(val) {
-    return this.formatMoment(val, 'HH:mm A');
+    return this.formatMoment(val, this.shortTimeFormat);
   },
 
   mediumTime(val) {
-    return this.formatMoment(val, 'HH:mm:ss A');
+    return this.formatMoment(val, this.mediumTimeFormat);
   },
 
   longTime(val) {
-    return this.formatMoment(val, 'HH:mm:ss A (Z)');
+    return this.formatMoment(val, this.longTimeFormat);
   },
 
   fullTime(val) {
