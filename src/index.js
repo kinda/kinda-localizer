@@ -2,7 +2,10 @@
 
 let _ = require('lodash');
 let KindaObject = require('kinda-object');
-let Locale = require('./locale');
+let Locale = require('./locales');
+let Common = require('./locales/common');
+let English = require('./locales/english');
+let French = require('./locales/french');
 
 let KindaLocalizer = KindaObject.extend('KindaLocalizer', function() {
   this.creator = function(options = {}) {
@@ -31,5 +34,8 @@ let KindaLocalizer = KindaObject.extend('KindaLocalizer', function() {
 });
 
 KindaLocalizer.Locale = Locale;
+KindaLocalizer.Common = Common;
+KindaLocalizer.English = English;
+KindaLocalizer.French = French;
 
 module.exports = KindaLocalizer;
