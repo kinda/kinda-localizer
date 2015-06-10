@@ -21,10 +21,11 @@ let KindaLocalizer = KindaObject.extend('KindaLocalizer', function() {
   this.getLocale = _.memoize(function(codes) {
     // TODO: make a smarter locale code resolution...
     if (!_.isArray(codes)) codes = [codes];
+    let locale;
     let code = codes[0]; // TODO: should consider every items in the array
-    if (!code) throw new Error('locale code is missing');
-    let locale = _.find(this.locales, 'code', code);
-    if (!locale) throw new Error(`locale '${code}' not found`);
+    if (code) locale = _.find(this.locales, 'code', code);
+    if (!locale) locale = this.locales[0];
+    if (!locale) throw new Error('locale not found');
     return locale;
   });
 });
