@@ -14,22 +14,22 @@ let Common = KindaLocalizer.Locale.extend('Common', {
     return _numeral(...args);
   },
 
-  numeralFormat(val, format) {
+  formatNumeral(val, format) {
     val = this.numeral(val).format(format);
     val = this.makeSpacesUnbreakable(val);
     return val;
   },
 
   number(val) {
-    return this.numeralFormat(val, '0,0.[000]');
+    return this.formatNumeral(val, '0,0.[000]');
   },
 
   percent(val) {
-    return this.numeralFormat(val, '0.[00]%');
+    return this.formatNumeral(val, '0.[00]%');
   },
 
   currency(val, symbol) {
-    val = this.numeralFormat(val, '0,0.00');
+    val = this.formatNumeral(val, '0,0.00');
     if (_.startsWith(val, '-')) {
       val = '-' + symbol + val.substr(1);
     } else {
@@ -47,18 +47,18 @@ let Common = KindaLocalizer.Locale.extend('Common', {
     return _moment(...args).locale(this.code);
   },
 
-  momentFormat(val, format) {
+  formatMoment(val, format) {
     val = this.moment(val).format(format);
     val = this.makeSpacesUnbreakable(val);
     return val;
   },
 
   shortDate(val) {
-    return this.momentFormat(val, 'MM/DD/YY');
+    return this.formatMoment(val, 'MM/DD/YY');
   },
 
   mediumDate(val) {
-    return this.momentFormat(val, 'MM/DD/YYYY');
+    return this.formatMoment(val, 'MM/DD/YYYY');
   },
 
   date(val) {
@@ -66,23 +66,23 @@ let Common = KindaLocalizer.Locale.extend('Common', {
   },
 
   longDate(val) {
-    return this.momentFormat(val, 'MMMM D, YYYY');
+    return this.formatMoment(val, 'MMMM D, YYYY');
   },
 
   fullDate(val) {
-    return this.momentFormat(val, 'dddd, MMMM D, YYYY');
+    return this.formatMoment(val, 'dddd, MMMM D, YYYY');
   },
 
   shortTime(val) {
-    return this.momentFormat(val, 'HH:mm A');
+    return this.formatMoment(val, 'HH:mm A');
   },
 
   mediumTime(val) {
-    return this.momentFormat(val, 'HH:mm:ss A');
+    return this.formatMoment(val, 'HH:mm:ss A');
   },
 
   longTime(val) {
-    return this.momentFormat(val, 'HH:mm:ss A (Z)');
+    return this.formatMoment(val, 'HH:mm:ss A (Z)');
   },
 
   fullTime(val) {
@@ -106,42 +106,42 @@ let French = Common.extend('French', {
   code: 'fr',
 
   percent(val) {
-    return this.numeralFormat(val, '0.[00] %');
+    return this.formatNumeral(val, '0.[00] %');
   },
 
   currency(val, symbol) {
-    val = this.numeralFormat(val, '0,0.00');
+    val = this.formatNumeral(val, '0,0.00');
     val = val + ' ' + symbol;
     val = this.makeSpacesUnbreakable(val);
     return val;
   },
 
   shortDate(val) {
-    return this.momentFormat(val, 'DD/MM/YY');
+    return this.formatMoment(val, 'DD/MM/YY');
   },
 
   mediumDate(val) {
-    return this.momentFormat(val, 'DD/MM/YYYY');
+    return this.formatMoment(val, 'DD/MM/YYYY');
   },
 
   longDate(val) {
-    return this.momentFormat(val, 'D MMMM YYYY');
+    return this.formatMoment(val, 'D MMMM YYYY');
   },
 
   fullDate(val) {
-    return this.momentFormat(val, 'dddd D MMMM YYYY');
+    return this.formatMoment(val, 'dddd D MMMM YYYY');
   },
 
   shortTime(val) {
-    return this.momentFormat(val, 'HH:mm');
+    return this.formatMoment(val, 'HH:mm');
   },
 
   mediumTime(val) {
-    return this.momentFormat(val, 'HH:mm:ss');
+    return this.formatMoment(val, 'HH:mm:ss');
   },
 
   longTime(val) {
-    return this.momentFormat(val, 'HH:mm:ss (Z)');
+    return this.formatMoment(val, 'HH:mm:ss (Z)');
   },
 
   hello(name) {
