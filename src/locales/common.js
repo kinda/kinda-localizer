@@ -101,6 +101,10 @@ let Common = Locale.extend('Common', {
     return this.formatMoment(val, this.mediumTimeFormat);
   },
 
+  time(val) {
+    return this.mediumTime(val);
+  },
+
   longTime(val) {
     return this.formatMoment(val, this.longTimeFormat);
   },
