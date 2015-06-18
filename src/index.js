@@ -9,11 +9,10 @@ let French = require('./locales/french');
 
 let KindaLocalizer = KindaObject.extend('KindaLocalizer', function() {
   this.creator = function(options = {}) {
+    if (!options.locales) options.locales = [English.create()];
     this.locales = [];
-    if (options.locales) {
-      for (let locale of options.locales) {
-        this.addLocale(locale);
-      }
+    for (let locale of options.locales) {
+      this.addLocale(locale);
     }
   };
 
