@@ -2,10 +2,11 @@
 
 let Common = require('./common');
 
-let English = Common.extend('English', {
-  code: 'en',
+let EnUS = Common.extend('EnUS', {
+  code: 'en-US',
   percentFormat: '0.[00]%',
-  currencySymbolPosition: 'before',
+  currencyFormat: '$0,0.00',
+  currencySymbol: '$',
   shortDateFormat: 'MM/DD/YY',
   mediumDateFormat: 'MM/DD/YYYY',
   flexibleDateFormatForParsing: 'M/D/YYYY',
@@ -16,4 +17,4 @@ let English = Common.extend('English', {
   longTimeFormat: 'HH:mm:ss A (Z)'
 });
 
-module.exports = English;
+module.exports = EnUS;

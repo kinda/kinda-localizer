@@ -1,11 +1,13 @@
 'use strict';
 
+require('numeral').language('fr-FR', require('numeral/languages/fr'));
 let Common = require('./common');
 
-let French = Common.extend('French', {
-  code: 'fr',
+let frFR = Common.extend('frFR', {
+  code: 'fr-FR',
   percentFormat: '0.[00] %',
-  currencySymbolPosition: 'after',
+  currencyFormat: '0,0.00 $',
+  currencySymbol: '€',
   shortDateFormat: 'DD/MM/YY',
   mediumDateFormat: 'DD/MM/YYYY',
   flexibleDateFormatForParsing: 'D/M/YYYY',
@@ -16,4 +18,4 @@ let French = Common.extend('French', {
   longTimeFormat: 'HH:mm:ss (Z)'
 });
 
-module.exports = French;
+module.exports = frFR;

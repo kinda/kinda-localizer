@@ -4,13 +4,19 @@
 
 let KindaLocalizer = require('./src');
 
-let English = KindaLocalizer.English.extend('English', {
+let EnGB = KindaLocalizer.EnGB.extend('EnGB', {
+  hello(name) {
+    return `Hello Sir ${name}!`;
+  }
+});
+
+let EnUS = KindaLocalizer.EnUS.extend('EnUS', {
   hello(name) {
     return `Hello ${name}!`;
   }
 });
 
-let French = KindaLocalizer.French.extend('French', {
+let FrFR = KindaLocalizer.FrFR.extend('FrFR', {
   hello(name) {
     return `Bonjour ${name} !`;
   }
@@ -18,8 +24,9 @@ let French = KindaLocalizer.French.extend('French', {
 
 let localizer = KindaLocalizer.create({
   locales: [
-    English.create(),
-    French.create()
+    EnGB.create(),
+    EnUS.create(),
+    FrFR.create()
   ]
 });
 
@@ -36,9 +43,9 @@ let display = function(locale) {
   console.log(locale.percent(0.12345678));
 
   console.log();
-  console.log(locale.euro(2));
-  console.log(locale.euro(-0.5));
-  console.log(locale.euro(1234.5678));
+  console.log(locale.currency(2));
+  console.log(locale.currency(-0.5));
+  console.log(locale.currency(1234.5678));
 
   console.log();
   console.log(locale.shortDate('2015-12-25T12:33:05'));
@@ -56,5 +63,7 @@ let display = function(locale) {
 };
 
 display(localizer.getLocale('en'));
+console.log();
+display(localizer.getLocale('en-US'));
 console.log();
 display(localizer.getLocale('fr'));

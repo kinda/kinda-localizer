@@ -2,14 +2,15 @@
 
 let _ = require('lodash');
 let _numeral = require('numeral');
-_numeral.language('fr', require('numeral/languages/fr'));
 let _moment = require('moment');
 let Locale = require('./');
 
 let Common = Locale.extend('Common', {
-  numeral(...args) {
-    _numeral.language(this.code);
-    return _numeral(...args);
+  get numeral() {
+    let code = this.code;
+    if (code === 'en-US') code = 'en';
+    _numeral.language(code);
+    return _numeral;
   },
 
   formatNumeral(val, format) {
@@ -33,23 +34,31 @@ let Common = Locale.extend('Common', {
     return this.formatNumeral(val, this.percentFormat);
   },
 
-  currency(val, symbol) {
-    val = this.formatNumeral(val, '0,0.00');
+  currency(val, symbol = this.currencySymbol) {
+    val = this.formatNumeral(val, this.currencyFormat);
     if (val == null) return undefined;
-    if (this.currencySymbolPosition === 'before') {
-      if (_.startsWith(val, '-')) {
-        val = '-' + symbol + val.substr(1);
-      } else {
-        val = symbol + val;
-      }
-    } else if (this.currencySymbolPosition === 'after') {
-      val = val + ' ' + symbol;
-    } else {
-      throw new Error('\'currencySymbolPosition\' is missing or invalid');
-    }
-    val = this.makeSpacesUnbreakable(val);
+    let numeralSymbol = this.numeral.languageData().currency.symbol;
+    val = val.replace(numeralSymbol, symbol);
     return val;
   },
+
+  // currency(val, symbol) {
+  //   val = this.formatNumeral(val, '0,0.00');
+  //   if (val == null) return undefined;
+  //   if (this.currencySymbolPosition === 'before') {
+  //     if (_.startsWith(val, '-')) {
+  //       val = '-' + symbol + val.substr(1);
+  //     } else {
+  //       val = symbol + val;
+  //     }
+  //   } else if (this.currencySymbolPosition === 'after') {
+  //     val = val + ' ' + symbol;
+  //   } else {
+  //     throw new Error('\'currencySymbolPosition\' is missing or invalid');
+  //   }
+  //   val = this.makeSpacesUnbreakable(val);
+  //   return val;
+  // },
 
   euro(val) {
     return this.currency(val, '€');
