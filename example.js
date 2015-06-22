@@ -47,9 +47,9 @@ let display = function(locale) {
   console.log(locale.fullDate('2015-12-25T12:33:05'));
 
   console.log();
-  console.log(locale.shortTime());
-  console.log(locale.mediumTime());
-  console.log(locale.longTime());
+  console.log(locale.shortTime(new Date()));
+  console.log(locale.mediumTime(new Date()));
+  console.log(locale.longTime(new Date()));
 
   console.log();
   console.log(locale.hello('Manu'));

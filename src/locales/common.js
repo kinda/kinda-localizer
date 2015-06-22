@@ -13,6 +13,7 @@ let Common = Locale.extend('Common', {
   },
 
   formatNumeral(val, format) {
+    if (val == null) return undefined;
     val = this.numeral(val).format(format);
     val = this.makeSpacesUnbreakable(val);
     return val;
@@ -34,6 +35,7 @@ let Common = Locale.extend('Common', {
 
   currency(val, symbol) {
     val = this.formatNumeral(val, '0,0.00');
+    if (val == null) return undefined;
     if (this.currencySymbolPosition === 'before') {
       if (_.startsWith(val, '-')) {
         val = '-' + symbol + val.substr(1);
@@ -58,6 +60,7 @@ let Common = Locale.extend('Common', {
   },
 
   formatMoment(val, format) {
+    if (val == null) return undefined;
     val = this.moment(val).format(format);
     val = this.makeSpacesUnbreakable(val);
     return val;
