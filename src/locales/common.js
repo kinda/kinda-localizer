@@ -127,12 +127,12 @@ let Common = Locale.extend('Common', {
 
   shortDateTime(val, separator = ' ') {
     if (val == null) return undefined;
-    return this.shortDate() + separator + this.shortTime(val);
+    return this.shortDate(val) + separator + this.shortTime(val);
   },
 
   mediumDateTime(val, separator = ' ') {
     if (val == null) return undefined;
-    return this.mediumDate() + separator + this.mediumTime(val);
+    return this.mediumDate(val) + separator + this.mediumTime(val);
   },
 
   dateTime(val, separator = ' ') {
@@ -141,12 +141,12 @@ let Common = Locale.extend('Common', {
 
   longDateTime(val, separator = ' ') {
     if (val == null) return undefined;
-    return this.longDate() + separator + this.longTime(val);
+    return this.longDate(val) + separator + this.longTime(val);
   },
 
   fullDateTime(val, separator = ' ') {
     if (val == null) return undefined;
-    return this.fullDate() + separator + this.fullTime(val);
+    return this.fullDate(val) + separator + this.fullTime(val);
   },
 
   makeSpacesUnbreakable(str) {
