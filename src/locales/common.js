@@ -125,6 +125,30 @@ let Common = Locale.extend('Common', {
     return this.longTime(val);
   },
 
+  shortDateTime(val, separator = ' ') {
+    if (val == null) return undefined;
+    return this.shortDate() + separator + this.shortTime(val);
+  },
+
+  mediumDateTime(val, separator = ' ') {
+    if (val == null) return undefined;
+    return this.mediumDate() + separator + this.mediumTime(val);
+  },
+
+  dateTime(val, separator = ' ') {
+    return this.mediumDateTime(val, separator);
+  },
+
+  longDateTime(val, separator = ' ') {
+    if (val == null) return undefined;
+    return this.longDate() + separator + this.longTime(val);
+  },
+
+  fullDateTime(val, separator = ' ') {
+    if (val == null) return undefined;
+    return this.fullDate() + separator + this.fullTime(val);
+  },
+
   makeSpacesUnbreakable(str) {
     return str.replace(/ /g, '\xa0');
   }
