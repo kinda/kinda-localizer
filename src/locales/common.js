@@ -151,6 +151,15 @@ let Common = Locale.extend('Common', {
 
   makeSpacesUnbreakable(str) {
     return str.replace(/ /g, '\xa0');
+  },
+
+  getText(obj) {
+    for (let code in obj) {
+      if (obj.hasOwnProperty(code)) {
+        if (this.code.startsWith(code)) return obj[code];
+      }
+    }
+    return '';
   }
 });
 
