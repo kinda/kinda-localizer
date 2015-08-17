@@ -105,6 +105,35 @@ let Common = Locale.extend('Common', {
     return this.formatMoment(val, this.fullDateFormat);
   },
 
+  dateRange(start, end) {
+    let result;
+
+    let startDay = this.moment(start).format('D');
+    let startMonth = this.moment(start).format('MMMM');
+    let startYear = this.moment(start).format('YYYY');
+    let endDay = this.moment(end).format('D');
+    let endMonth = this.moment(end).format('MMMM');
+    let endYear = this.moment(end).format('YYYY');
+
+    let format = (date) => this.formatMoment(date, 'D MMMM YYYY');
+
+    if (startDay === endDay && startMonth === endMonth && startYear === endYear) {
+      result = this.onDate + ' ' + format(start);
+    } else if (startMonth === endMonth && startYear === endYear) {
+      result = this.fromDate + ' ' + startDay + ' ';
+      result += this.toDate + ' ' + endDay + ' ';
+      result += this.makeSpacesUnbreakable(startMonth + ' ' + startYear);
+    } else if (startYear === endYear) {
+      result = this.fromDate + ' ';
+      result += this.makeSpacesUnbreakable(startDay + ' ' + startMonth) + ' ';
+      result += this.toDate + ' ' + format(end);
+    } else {
+      result = this.fromDate + ' ' + format(start) + ' ';
+      result += this.toDate + ' ' + format(end);
+    }
+    return result;
+  },
+
   shortTime(val) {
     return this.formatMoment(val, this.shortTimeFormat);
   },
