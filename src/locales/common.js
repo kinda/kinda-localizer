@@ -2,7 +2,7 @@
 
 let _ = require('lodash');
 let _numeral = require('numeral');
-let _moment = require('moment');
+let _moment = require('moment-timezone');
 let Locale = require('./');
 
 let Common = Locale.extend('Common', {
@@ -68,54 +68,46 @@ let Common = Locale.extend('Common', {
     return _moment(...args).locale(this.code);
   },
 
-  formatMoment(val, format) {
+  formatMoment(val, format, timeZone) {
     if (val == null) return undefined;
-    val = this.moment(val).format(format);
+    val = this.moment(val);
+    if (timeZone) val = val.tz(timeZone);
+    val = val.format(format);
     val = this.makeSpacesUnbreakable(val);
     return val;
   },
 
-  shortDate(val) {
-    return this.formatMoment(val, this.shortDateFormat);
+  shortDate(val, timeZone) {
+    return this.formatMoment(val, this.shortDateFormat, timeZone);
   },
 
-  mediumDate(val) {
-    return this.formatMoment(val, this.mediumDateFormat);
+  mediumDate(val, timeZone) {
+    return this.formatMoment(val, this.mediumDateFormat, timeZone);
   },
 
-  date(val) {
-    return this.mediumDate(val);
+  date(val, timeZone) {
+    return this.mediumDate(val, timeZone);
   },
 
-  parseDate(str) {
-    if (!str) return undefined;
-    if (!_.isString(str)) throw new Error('invalid input');
-    let date = this.moment(str, this.mediumDateFormat, true);
-    if (date.isValid()) return date.toDate();
-    date = this.moment(str, this.flexibleDateFormatForParsing, true);
-    if (date.isValid()) return date.toDate();
-    return undefined;
+  longDate(val, timeZone) {
+    return this.formatMoment(val, this.longDateFormat, timeZone);
   },
 
-  longDate(val) {
-    return this.formatMoment(val, this.longDateFormat);
+  fullDate(val, timeZone) {
+    return this.formatMoment(val, this.fullDateFormat, timeZone);
   },
 
-  fullDate(val) {
-    return this.formatMoment(val, this.fullDateFormat);
-  },
-
-  dateRange(start, end) {
+  dateRange(start, end, timeZone) {
     let result;
 
-    let startDay = this.moment(start).format('D');
-    let startMonth = this.moment(start).format('MMMM');
-    let startYear = this.moment(start).format('YYYY');
-    let endDay = this.moment(end).format('D');
-    let endMonth = this.moment(end).format('MMMM');
-    let endYear = this.moment(end).format('YYYY');
+    let startDay = this.formatMoment(start, 'D', timeZone);
+    let startMonth = this.formatMoment(start, 'MMMM', timeZone);
+    let startYear = this.formatMoment(start, 'YYYY', timeZone);
+    let endDay = this.formatMoment(end, 'D', timeZone);
+    let endMonth = this.formatMoment(end, 'MMMM', timeZone);
+    let endYear = this.formatMoment(end, 'YYYY', timeZone);
 
-    let format = (date) => this.formatMoment(date, 'D MMMM YYYY');
+    let format = (date) => this.formatMoment(date, 'D MMMM YYYY', timeZone);
 
     if (startDay === endDay && startMonth === endMonth && startYear === endYear) {
       result = this.onDate + ' ' + format(start);
@@ -134,48 +126,58 @@ let Common = Locale.extend('Common', {
     return result;
   },
 
-  shortTime(val) {
-    return this.formatMoment(val, this.shortTimeFormat);
+  shortTime(val, timeZone) {
+    return this.formatMoment(val, this.shortTimeFormat, timeZone);
   },
 
-  mediumTime(val) {
-    return this.formatMoment(val, this.mediumTimeFormat);
+  mediumTime(val, timeZone) {
+    return this.formatMoment(val, this.mediumTimeFormat, timeZone);
   },
 
-  time(val) {
-    return this.mediumTime(val);
+  time(val, timeZone) {
+    return this.mediumTime(val, timeZone);
   },
 
-  longTime(val) {
-    return this.formatMoment(val, this.longTimeFormat);
+  longTime(val, timeZone) {
+    return this.formatMoment(val, this.longTimeFormat, timeZone);
   },
 
-  fullTime(val) {
-    return this.longTime(val);
+  fullTime(val, timeZone) {
+    return this.longTime(val, timeZone);
   },
 
-  shortDateTime(val, separator = ' ') {
+  shortDateTime(val, timeZone, separator = ' ') {
     if (val == null) return undefined;
-    return this.shortDate(val) + separator + this.shortTime(val);
+    return this.shortDate(val, timeZone) + separator + this.shortTime(val, timeZone);
   },
 
-  mediumDateTime(val, separator = ' ') {
+  mediumDateTime(val, timeZone, separator = ' ') {
     if (val == null) return undefined;
-    return this.mediumDate(val) + separator + this.mediumTime(val);
+    return this.mediumDate(val, timeZone) + separator + this.mediumTime(val, timeZone);
   },
 
-  dateTime(val, separator = ' ') {
-    return this.mediumDateTime(val, separator);
+  dateTime(val, timeZone, separator = ' ') {
+    return this.mediumDateTime(val, timeZone, separator);
   },
 
-  longDateTime(val, separator = ' ') {
+  longDateTime(val, timeZone, separator = ' ') {
     if (val == null) return undefined;
-    return this.longDate(val) + separator + this.longTime(val);
+    return this.longDate(val, timeZone) + separator + this.longTime(val, timeZone);
   },
 
-  fullDateTime(val, separator = ' ') {
+  fullDateTime(val, timeZone, separator = ' ') {
     if (val == null) return undefined;
-    return this.fullDate(val) + separator + this.fullTime(val);
+    return this.fullDate(val, timeZone) + separator + this.fullTime(val, timeZone);
+  },
+  
+  parseDate(str) { // <------------------
+    if (!str) return undefined;
+    if (!_.isString(str)) throw new Error('invalid input');
+    let date = this.moment(str, this.mediumDateFormat, true);
+    if (date.isValid()) return date.toDate();
+    date = this.moment(str, this.flexibleDateFormatForParsing, true);
+    if (date.isValid()) return date.toDate();
+    return undefined;
   },
 
   makeSpacesUnbreakable(str) {

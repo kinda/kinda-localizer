@@ -65,6 +65,12 @@ let display = function(locale) {
   console.log(locale.longTime(new Date()));
 
   console.log();
+  console.log('Local:', locale.longTime(new Date()));
+  console.log('Paris:', locale.longTime(new Date(), 'Europe/Paris'));
+  console.log('Tokyo:', locale.longTime(new Date(), 'Asia/Tokyo'));
+  console.log('New York:', locale.longTime(new Date(), 'America/New_York'));
+
+  console.log();
   console.log(locale.hello('Manu'));
 };
 
