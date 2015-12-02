@@ -7,7 +7,7 @@ let Locale = require('./');
 
 let Common = Locale.extend('Common', {
   get numeral() {
-    let code = this.code;
+    let code = this.class.code;
     if (code === 'en-US') code = 'en';
     _numeral.language(code);
     return _numeral;
@@ -65,10 +65,10 @@ let Common = Locale.extend('Common', {
   },
 
   moment(...args) {
-    return _moment(...args).locale(this.code);
+    return _moment(...args).locale(this.class.code);
   },
 
-  formatMoment(val, format, timeZone) {
+  formatMoment(val, format, timeZone = this.timeZone) {
     if (val == null) return undefined;
     val = this.moment(val);
     if (timeZone) val = val.tz(timeZone);
@@ -169,7 +169,7 @@ let Common = Locale.extend('Common', {
     if (val == null) return undefined;
     return this.fullDate(val, timeZone) + separator + this.fullTime(val, timeZone);
   },
-  
+
   parseDate(str) { // <------------------
     if (!str) return undefined;
     if (!_.isString(str)) throw new Error('invalid input');
@@ -187,7 +187,7 @@ let Common = Locale.extend('Common', {
   getText(obj) {
     for (let code in obj) {
       if (obj.hasOwnProperty(code)) {
-        if (this.code.startsWith(code)) return obj[code];
+        if (this.class.code.startsWith(code)) return obj[code];
       }
     }
     return '';

@@ -3,8 +3,6 @@
 let Common = require('./common');
 
 let EnUS = Common.extend('EnUS', {
-  code: 'en-US',
-
   percentFormat: '0.[00]%',
   currencyFormat: '$0,0.00',
   currencySymbol: '$',
@@ -23,5 +21,7 @@ let EnUS = Common.extend('EnUS', {
   mediumTimeFormat: 'HH:mm:ss A',
   longTimeFormat: 'HH:mm:ss A (Z)'
 });
+
+EnUS.code = 'en-US';
 
 module.exports = EnUS;

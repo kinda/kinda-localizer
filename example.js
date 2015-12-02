@@ -22,13 +22,7 @@ let FrFR = KindaLocalizer.FrFR.extend('FrFR', {
   }
 });
 
-let localizer = KindaLocalizer.create({
-  locales: [
-    EnGB.create(),
-    EnUS.create(),
-    FrFR.create()
-  ]
-});
+let localizer = KindaLocalizer.create([EnGB, EnUS, FrFR]);
 
 let display = function(locale) {
   console.log(`=== ${locale.class.name} ===`);
@@ -74,8 +68,8 @@ let display = function(locale) {
   console.log(locale.hello('Manu'));
 };
 
-display(localizer.getLocale('en'));
+display(localizer.createLocale('en'));
 console.log();
-display(localizer.getLocale('en-US'));
+display(localizer.createLocale('en-US'));
 console.log();
-display(localizer.getLocale('fr'));
+display(localizer.createLocale('fr'));

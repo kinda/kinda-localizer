@@ -4,8 +4,6 @@ require('numeral').language('en-GB', require('numeral/languages/en-gb'));
 let Common = require('./common');
 
 let EnGB = Common.extend('EnGB', {
-  code: 'en-GB',
-
   percentFormat: '0.[00]%',
   currencyFormat: '$0,0.00',
   currencySymbol: '£',
@@ -24,5 +22,7 @@ let EnGB = Common.extend('EnGB', {
   mediumTimeFormat: 'HH:mm:ss',
   longTimeFormat: 'HH:mm:ss (Z)'
 });
+
+EnGB.code = 'en-GB';
 
 module.exports = EnGB;

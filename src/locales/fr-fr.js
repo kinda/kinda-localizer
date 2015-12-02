@@ -3,9 +3,7 @@
 require('numeral').language('fr-FR', require('numeral/languages/fr'));
 let Common = require('./common');
 
-let frFR = Common.extend('frFR', {
-  code: 'fr-FR',
-
+let FrFR = Common.extend('FrFR', {
   percentFormat: '0.[00] %',
   currencyFormat: '0,0.00 $',
   currencySymbol: '€',
@@ -25,4 +23,6 @@ let frFR = Common.extend('frFR', {
   longTimeFormat: 'HH:mm:ss (Z)'
 });
 
-module.exports = frFR;
+FrFR.code = 'fr-FR';
+
+module.exports = FrFR;
