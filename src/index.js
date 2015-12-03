@@ -34,10 +34,10 @@ let KindaLocalizer = KindaObject.extend('KindaLocalizer', function() {
     return localeClass;
   });
 
-  this.createLocale = function(codes) {
+  this.createLocale = function(codes, definition) {
     let localeClass = this.findLocaleClass(codes);
     if (!localeClass) throw new Error('locale class not found');
-    let locale = localeClass.create();
+    let locale = localeClass.create(definition);
     return locale;
   };
 });

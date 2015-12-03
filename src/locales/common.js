@@ -42,24 +42,6 @@ let Common = Locale.extend('Common', {
     return val;
   },
 
-  // currency(val, symbol) {
-  //   val = this.formatNumeral(val, '0,0.00');
-  //   if (val == null) return undefined;
-  //   if (this.currencySymbolPosition === 'before') {
-  //     if (_.startsWith(val, '-')) {
-  //       val = '-' + symbol + val.substr(1);
-  //     } else {
-  //       val = symbol + val;
-  //     }
-  //   } else if (this.currencySymbolPosition === 'after') {
-  //     val = val + ' ' + symbol;
-  //   } else {
-  //     throw new Error('\'currencySymbolPosition\' is missing or invalid');
-  //   }
-  //   val = this.makeSpacesUnbreakable(val);
-  //   return val;
-  // },
-
   euro(val) {
     return this.currency(val, '€');
   },
