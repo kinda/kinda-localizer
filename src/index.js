@@ -35,9 +35,19 @@ let KindaLocalizer = KindaObject.extend('KindaLocalizer', function() {
   });
 
   this.createLocale = function(codes, definition) {
+    if (!this._cachedLocales) this._cachedLocales = [];
+    let cachedLocale = _.find(this._cachedLocales, function(cachedLocale) {
+      return _.isEqual(cachedLocale.codes, codes) && _.isEqual(cachedLocale.definition, definition);
+    });
+    if (cachedLocale) return cachedLocale.locale;
+
     let localeClass = this.findLocaleClass(codes);
     if (!localeClass) throw new Error('locale class not found');
     let locale = localeClass.create(definition);
+
+    cachedLocale = { codes, definition, locale };
+    this._cachedLocales.push(cachedLocale);
+
     return locale;
   };
 });
