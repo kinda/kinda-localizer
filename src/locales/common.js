@@ -5,6 +5,8 @@ let _numeral = require('numeral');
 let _moment = require('moment-timezone');
 let Locale = require('./');
 
+const ABSTRACT_DATE = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d$/;
+
 let Common = Locale.extend('Common', {
   get numeral() {
     let code = this.class.code;
@@ -47,6 +49,15 @@ let Common = Locale.extend('Common', {
   },
 
   _createMoment(date, timeZone = this.timeZone) {
+    if (!(typeof date === 'string' || typeof date === 'number' || date instanceof Date)) {
+      if (date && date.toString) {
+        date = date.toString();
+        if (ABSTRACT_DATE.test(date)) {
+          // input date is an instance of AbstractDate
+          timeZone = 'UTC';
+        }
+      }
+    }
     let moment = timeZone ? _moment.tz(date, timeZone) : _moment(date);
     return moment.locale(this.class.code);
   },
