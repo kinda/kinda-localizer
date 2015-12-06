@@ -50,13 +50,11 @@ let Common = Locale.extend('Common', {
 
   _createMoment(date, timeZone = this.timeZone) {
     if (!(typeof date === 'string' || typeof date === 'number' || date instanceof Date)) {
-      if (date && date.toString) {
-        date = date.toString();
-        if (ABSTRACT_DATE.test(date)) {
-          // input date is an instance of AbstractDate
-          timeZone = 'UTC';
-        }
-      }
+      if (date && date.toString) date = date.toString();
+    }
+    if (ABSTRACT_DATE.test(date)) {
+      // specified date is abstract (no Zulu time zone speficied)
+      timeZone = 'UTC';
     }
     let moment = timeZone ? _moment.tz(date, timeZone) : _moment(date);
     return moment.locale(this.class.code);
