@@ -15,7 +15,7 @@ let Common = Locale.extend('Common', {
     return _numeral;
   },
 
-  formatNumber(val, format) {
+  formatNumber(val, format = '0[.][000000000]') {
     if (val == null) return undefined;
     val = this.numeral(val).format(format);
     val = this.makeSpacesUnbreakable(val);
